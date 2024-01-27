@@ -1,11 +1,13 @@
+using ArcanepadExample;
+using ArcanepadSDK.Models;
 using ArcanepadSDK.Types;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PadManager : MonoBehaviour
 {
     public Button _calibrateQuaternionButton;
+    public Button _changeButton;
 
     async void Awake()
     {
@@ -13,5 +15,11 @@ public class PadManager : MonoBehaviour
         await Arcane.ArcaneClientInitialized();
 
         _calibrateQuaternionButton.onClick.AddListener(() => Arcane.Pad.CalibrateQuaternion());
+        _changeButton.onClick.AddListener(() => AddArcaneBaseEvent("Change"));
+    }
+
+    public void AddArcaneBaseEvent(string name)
+    {
+        Arcane.Msg.EmitToViews(new ArcaneBaseEvent(name));
     }
 }

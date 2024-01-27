@@ -1,12 +1,17 @@
 using ArcanepadSDK.Types;
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PadManager : MonoBehaviour
 {
-    void Awake()
+    public Button _calibrateQuaternionButton;
+
+    async void Awake()
     {
         Arcane.Init(new ArcaneInitParams(deviceType: ArcaneDeviceType.pad, padOrientation: AOrientation.Portrait));
+        await Arcane.ArcaneClientInitialized();
+
+        _calibrateQuaternionButton.onClick.AddListener(() => Arcane.Pad.CalibrateQuaternion());
     }
 }

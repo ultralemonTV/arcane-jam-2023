@@ -8,38 +8,44 @@ public class Player : MonoBehaviour
 {
     public ArcanePad _pad;
 
-    public Transform _topOfObject;
+    public Rigidbody _topOfObjectRb;
     public Transform _objectMainBody;
+    private Vector3 _initialPos;
 
-    public float _minPositionThreshold = -0.1f;
-    public float _maxPositionThreshold = 0.1f;
-    public float _movementMultiplier = 1.0f;
+    public float _speed = 15.0f;
 
-    private bool _isButtonPressed = false;
+    private bool _isXAxis = false;
 
     public void Initialize(ArcanePad pad)
     {
         _pad = pad;
+        _initialPos = _topOfObjectRb.transform.position;
 
         _pad.StartGetQuaternion();
         _pad.OnGetQuaternion(new Action<GetQuaternionEvent>(RotatePad));
 
-        _pad.On("Change", new Action<ChangeEvent>(ChangeButtonState));
+        _pad.On("ChangeRotationAxis", new Action<ChangeRotationAxisEvent>(ChangeRotationAxis));
     }
 
     private void RotatePad(GetQuaternionEvent e)
     {
-        //if (e.x > _minPositionThreshold || e.x < _maxPositionThreshold)
-        if (_isButtonPressed)
-            _topOfObject.position += _topOfObject.up * e.x * _movementMultiplier;
-            //_topOfObject.position = new Vector3(_topOfObject.position.x, e.x * _movementMultiplier, _topOfObject.position.z);
-
-        if (!_isButtonPressed)
-        _objectMainBody.rotation = new Quaternion(_objectMainBody.rotation.x, _objectMainBody.rotation.y, e.z, e.w);
+        if (_isXAxis)
+        {
+            _topOfObjectRb.velocity = e.x * e.w * _topOfObjectRb.transform.up * _speed;
+        }
+        else
+        {
+            _objectMainBody.rotation = new Quaternion(_objectMainBody.rotation.x, _objectMainBody.rotation.y, e.z, e.w);
+        }
     }
 
-    private void ChangeButtonState(ChangeEvent e)
+    private void ChangeRotationAxis(ChangeRotationAxisEvent e)
     {
-        _isButtonPressed = !_isButtonPressed;
+        _isXAxis = !_isXAxis;
+        if (!_isXAxis)
+        {
+            _topOfObjectRb.velocity = Vector3.zero;
+            _topOfObjectRb.transform.position = _initialPos;
+        }
     }
 }

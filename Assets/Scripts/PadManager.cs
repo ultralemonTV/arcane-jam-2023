@@ -15,7 +15,7 @@ public class PadManager : MonoBehaviour
         await Arcane.ArcaneClientInitialized();
 
         _calibrateQuaternionButton.onClick.AddListener(() => Arcane.Pad.CalibrateQuaternion());
-        _changeButton.onClick.AddListener(() => AddArcaneBaseEvent("Change"));
+        _changeButton.onClick.AddListener(() => AddArcaneBaseEvent("ChangeRotationAxis"));
     }
 
     public void AddArcaneBaseEvent(string name)

@@ -2,13 +2,13 @@ using ArcanepadSDK.Models;
 
 namespace ArcanepadEvents
 {
-    public class ChangeEvent : ArcaneBaseEvent
+    public class ChangeRotationAxisEvent : ArcaneBaseEvent
     {
-        public bool _isButtonPressed;
+        public bool _isXAxis;
 
-        public ChangeEvent(bool isButtonPressed) : base("Change")
+        public ChangeRotationAxisEvent(bool isXAxis) : base("ChangeRotationAxis")
         {
-            _isButtonPressed = isButtonPressed;
+            _isXAxis = isXAxis;
         }
     }
 }

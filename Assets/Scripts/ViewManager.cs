@@ -1,7 +1,6 @@
 using ArcanepadSDK;
 using ArcanepadSDK.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,6 +9,7 @@ public class ViewManager : MonoBehaviour
 {
     public GameObject _playerPrefab;
     List<Player> _players = new List<Player>();
+
     async void Awake()
     {
         Arcane.Init();
